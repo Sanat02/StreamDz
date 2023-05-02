@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toList;
 
 public class RestaurantOrders {
     // Этот блок кода менять нельзя! НАЧАЛО!
@@ -47,13 +48,17 @@ public class RestaurantOrders {
     // Вам необходимо создать все необходимые методы
     // для решения заданий из домашки :)
     // вы можете добавлять все необходимые imports
-    //
+    //Первое задание можно реализовать с помощью 2х методов
     public void printOrderSum() {
         for (int i = 0; i < orders.size(); i++) {
             System.out.print("Order №" + (i + 1) + ":");
-            orders.get(i).calculateTotal();
+            orders.get(i).calculateTotal();             //1
             System.out.println(orders.get(i).getTotal());
         }
+    }
+    public void printOrderSum2() {
+        var hj=getOrders().stream().map(Order::getTotal).collect(toList());     //2
+        hj.forEach(System.out::println);
     }
 
     public void printList() {
@@ -98,4 +103,5 @@ public class RestaurantOrders {
         var emailList = orders.stream().map(e -> e.getCustomer().getEmail()).collect(toCollection(TreeSet::new));
         emailList.forEach(System.out::println);
     }
+
 }
