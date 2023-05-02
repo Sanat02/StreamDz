@@ -2,6 +2,7 @@ package kg.attractor.java.homework.domain;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import kg.attractor.java.homework.util.NotImplementedException;
 
@@ -55,6 +56,12 @@ public class Order {
 
     public void calculateTotal() {
         total = items.stream().mapToDouble(e -> e.getPrice()).sum();
+    }
+    public String printItems()
+    {
+        var strItems=items.stream().map(e->"name:"+e.getName()+",price:"+e.getPrice()+" ,type:"+e.getType()+" amount:"+e.getAmount()).
+                collect(Collectors.joining(",","[","]"));
+        return strItems;
     }
 
     @Override
