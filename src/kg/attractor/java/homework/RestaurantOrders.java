@@ -153,5 +153,12 @@ public class RestaurantOrders {
         System.out.println();
 
     }
+    public void listEmail() {
+        var emailList = orders.stream().flatMap(p -> p.getItems().stream().map(g -> new AbstractMap.SimpleEntry(g.getName(), p.getCustomer().getEmail()))).
+                collect(Collectors.groupingBy(Map.Entry::getKey,
+                        Collectors.mapping(Map.Entry::getValue, Collectors.toList())));
+        emailList.forEach((k, v) -> System.out.printf("%s - %s%n", k, v));
+        System.out.println();
+    }
 
 }

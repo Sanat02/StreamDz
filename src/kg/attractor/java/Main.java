@@ -45,6 +45,8 @@ public class Main {
         ro.totalSumOfUniqueOrdererMin();
         System.out.println();
         ro.productQuantity();
+        System.out.println();
+        ro.listEmail();
 
 
 
