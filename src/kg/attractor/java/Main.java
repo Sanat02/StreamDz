@@ -35,7 +35,18 @@ public class Main {
         ro.printAllSum();
         System.out.println();
         ro.printDistinctEmail();
-       
+        System.out.println();
+        ro.uniqueOrderers();
+        System.out.println();
+        ro.totalSumOfUniqueOrderers();
+        System.out.println();
+        ro.totalSumOfUniqueOrderersMax();
+        System.out.println();
+        ro.totalSumOfUniqueOrdererMin();
+        System.out.println();
+        ro.productQuantity();
+
+
 
 
 

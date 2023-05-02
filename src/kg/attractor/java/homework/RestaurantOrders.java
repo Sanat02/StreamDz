@@ -2,18 +2,17 @@ package kg.attractor.java.homework;
 
 import com.google.gson.Gson;
 
+import kg.attractor.java.homework.domain.Item;
 import kg.attractor.java.homework.domain.Order;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Comparator;
-import java.util.List;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.mapping;
 
 public class RestaurantOrders {
     // Этот блок кода менять нельзя! НАЧАЛО!
@@ -102,6 +101,57 @@ public class RestaurantOrders {
     public void printDistinctEmail() {
         var emailList = orders.stream().map(e -> e.getCustomer().getEmail()).collect(toCollection(TreeSet::new));
         emailList.forEach(System.out::println);
+    }
+    public void uniqueOrderers() {
+        var listOfUniqueOrderers = orders.stream().collect(groupingBy(e -> e.getCustomer().getFullName(),
+                mapping(Order::getItems, toList())));
+        listOfUniqueOrderers.forEach((k, v) -> System.out.printf("%s - %s%n", k, v));
+        System.out.println(listOfUniqueOrderers.size());
+    }
+
+    public void totalSumOfUniqueOrderers() {
+
+        var listOfUniqueOrderers = orders.stream().collect(groupingBy(e -> e.getCustomer().getFullName(),
+                mapping(Order::getItems, toList())));
+        Map<String, Double> mp = new HashMap<>();
+        for (Map.Entry<String, List<List<Item>>> entry : listOfUniqueOrderers.entrySet()) {
+            var value = entry.getValue().stream().flatMap(Collection::stream).mapToDouble(Item::getPrice).sum();
+            mp.put(entry.getKey(), value);
+        }
+        mp.forEach((k, v) -> System.out.printf("%s - %s%n", k, v));
+    }
+    public void totalSumOfUniqueOrderersMax() {
+        var listOfUniqueOrderers = orders.stream().collect(groupingBy(e -> e.getCustomer().getFullName(),
+                mapping(Order::getItems, toList())));
+        Map<String, Double> mp = new HashMap<>();
+        for (Map.Entry<String, List<List<Item>>> entry : listOfUniqueOrderers.entrySet()) {
+            var value = entry.getValue().stream().flatMap(Collection::stream).mapToDouble(Item::getPrice).sum();
+            mp.put(entry.getKey(), value);
+        }
+        double max = mp.values().stream().mapToDouble(e -> e).max().getAsDouble();
+        var maxOrder = mp.entrySet().stream().filter(e -> e.getValue() == max).map(Map.Entry::getKey).collect(toList());
+        maxOrder.forEach(System.out::println);
+        System.out.println("Max:" + max);
+    }
+
+    public void totalSumOfUniqueOrdererMin() {
+        var listOfUniqueOrderers = orders.stream().collect(groupingBy(e -> e.getCustomer().getFullName(),
+                mapping(Order::getItems, toList())));
+        Map<String, Double> mp = new HashMap<>();
+        for (Map.Entry<String, List<List<Item>>> entry : listOfUniqueOrderers.entrySet()) {
+            var value = entry.getValue().stream().flatMap(Collection::stream).mapToDouble(Item::getPrice).sum();
+            mp.put(entry.getKey(), value);
+        }
+        double min = mp.values().stream().mapToDouble(e -> e).min().getAsDouble();
+        var minOrder = mp.entrySet().stream().filter(e -> e.getValue() == min).map(Map.Entry::getKey).collect(toList());
+        minOrder.forEach(System.out::println);
+        System.out.println("Min:" + min);
+    }
+    public void productQuantity() {
+        var counting = orders.stream().flatMap(o -> o.getItems().stream()).collect(groupingBy(Item::getName, counting()));
+        counting.forEach((k, v) -> System.out.printf("%s - %s%n", k, v));
+        System.out.println();
+
     }
 
 }
