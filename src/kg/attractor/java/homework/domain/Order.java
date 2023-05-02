@@ -54,6 +54,16 @@ public class Order {
     //----------------------------------------------------------------------
 
     public void calculateTotal() {
-        throw new NotImplementedException("Вам надо реализовать этот метод!");
+        total = items.stream().mapToDouble(e -> e.getPrice()).sum();
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "customer=" + customer +
+                ", items=" + items +
+                ", homeDelivery=" + homeDelivery +
+                ", total=" + total +
+                '}';
     }
 }
